@@ -24,7 +24,7 @@ jobs:
 
       - name: Execute Numerical Verification Suite
         run: |
-          pytest tests/ -v
+          PYTHONPATH=. pytest tests/ -v
 
       - name: Run Baseline Simulation
         run: |
