@@ -1,0 +1,31 @@
+name: WPT Simulation CI
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest -r requirements.txt
+
+      - name: Code Quality & Style Enforcement
+        run: |
+          flake8 src/ tests/ --count --max-line-length=100 --statistics
+
+      - name: Execute Numerical Verification Suite
+        run: |
+          pytest tests/ -v
+
+      - name: Run Baseline Simulation
+        run: |
+          python -m src.simulation
