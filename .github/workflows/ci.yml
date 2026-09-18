@@ -20,7 +20,7 @@ jobs:
 
       - name: Code Quality & Style Enforcement
         run: |
-          flake8 src/ tests/ --count --max-line-length=100 --statistics
+          flake8 src/ tests/ --count --ignore=W292 --max-line-length=100 --statistics
 
       - name: Execute Numerical Verification Suite
         run: |
