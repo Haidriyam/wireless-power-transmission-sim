@@ -18,7 +18,6 @@ def calculate_coupling_coefficient(radius_tx: float, radius_rx: float, distance:
     if distance <= 0:
         return 1.0
 
-    # Simplified coaxial approximation model
     numerator = (radius_tx * radius_rx) ** 1.5
     denominator = (math.sqrt(radius_tx * radius_rx) ** 2 + distance ** 2) ** 1.5
     return min(1.0, numerator / denominator)
@@ -37,9 +36,8 @@ def evaluate_transmission_efficiency(
     if k < 0 or k > 1:
         raise ValueError("Coupling coefficient k must be within [0, 1].")
 
-    u = (k ** 2) * q_tx * q_rx  # System coupling figure of merit
+    u = (k ** 2) * q_tx * q_rx
 
-    # Maximum achievable link efficiency
     efficiency = u / ((1 + math.sqrt(1 + u)) ** 2)
 
     return {
@@ -51,14 +49,14 @@ def evaluate_transmission_efficiency(
 
 
 if __name__ == "__main__":
-    freq = 13.56e6  # 13.56 MHz (Standard ISM resonance band)
-    l_tx, r_tx = 15e-6, 0.45  # Tx: 15 uH, 0.45 Ohms
-    l_rx, r_rx = 15e-6, 0.45  # Rx: 15 uH, 0.45 Ohms
+    freq = 13.56e6
+    l_tx, r_tx = 15e-6, 0.45
+    l_rx, r_rx = 15e-6, 0.45
 
     q_1 = calculate_quality_factor(l_tx, r_tx, freq)
     q_2 = calculate_quality_factor(l_rx, r_rx, freq)
 
-    dist = 0.15  # 15 cm air gap
+    dist = 0.15
     k_val = calculate_coupling_coefficient(0.1, 0.1, dist)
     report = evaluate_transmission_efficiency(k_val, q_1, q_2)
 
